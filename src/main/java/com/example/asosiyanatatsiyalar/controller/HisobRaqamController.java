@@ -20,13 +20,13 @@ public class HisobRaqamController {
         return ResponseEntity.status(apiResponse.isHolat()?500:208).body(apiResponse.getXabar());
     }
     @PutMapping("/pulQuyish/{kartaRaqam}")
-    public HttpEntity<?> PulQuyish(@RequestBody PulOtkazish pulOtkazish){
-        ApiResponse apiResponse=hisobRaqamService.pulQuyish(pulOtkazish);
+    public HttpEntity<?> PulQuyish(@PathVariable String kartaRaqam, @RequestBody PulOtkazish pulOtkazish){
+        ApiResponse apiResponse=hisobRaqamService.pulQuyish(kartaRaqam, pulOtkazish);
         return ResponseEntity.status(apiResponse.isHolat()?500:208).body(apiResponse.getXabar());
     }
-    @PutMapping("/pulOtkazish/{qabulQiluvchi}")
-    public HttpEntity<?> PULotkazish( @RequestBody PulOtkazish pulOtkazish){
-        ApiResponse apiResponse=hisobRaqamService.pulotkazish(pulOtkazish);
+    @PutMapping("/pulOtkazish/{jonatuvchi}")
+    public HttpEntity<?> PULotkazish(@PathVariable String jonatuvchi, @RequestBody PulOtkazish pulOtkazish){
+        ApiResponse apiResponse=hisobRaqamService.pulotkazish(jonatuvchi, pulOtkazish);
         return ResponseEntity.status(apiResponse.isHolat()?500:208).body(apiResponse.getXabar());
     }
 }

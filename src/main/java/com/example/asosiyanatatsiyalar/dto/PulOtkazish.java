@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PulOtkazish {
-    private String otkazuvchi,qabulqiluvchi;
+    private String qabulqiluvchi;
     private Double balans;
 }

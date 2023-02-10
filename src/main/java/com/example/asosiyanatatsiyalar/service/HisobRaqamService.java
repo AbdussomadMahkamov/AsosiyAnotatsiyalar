@@ -38,8 +38,8 @@ public class HisobRaqamService {
         return new ApiResponse("Ma'lumotlar saqlandi", true);
     }
 
-    public ApiResponse pulQuyish(PulOtkazish pulOtkazish) {
-        Optional<HisobRaqam> byKartaRaqami = hisobRaqamRepository.findByKartaRaqami(pulOtkazish.getQabulqiluvchi());
+    public ApiResponse pulQuyish(String kartaRaqam, PulOtkazish pulOtkazish) {
+        Optional<HisobRaqam> byKartaRaqami = hisobRaqamRepository.findByKartaRaqami(kartaRaqam);
         if (byKartaRaqami.isPresent()){
             HisobRaqam hisobRaqam=byKartaRaqami.get();
             hisobRaqam.setBalans(hisobRaqam.getBalans()+pulOtkazish.getBalans());
@@ -49,17 +49,23 @@ public class HisobRaqamService {
         return new ApiResponse("Karta raqami toplimadi", false);
     }
 
-    public ApiResponse pulotkazish(PulOtkazish pulOtkazish) {
+    public ApiResponse pulotkazish(String jonatuvchi,PulOtkazish pulOtkazish) {
         Optional<HisobRaqam> byKartaRaqami = hisobRaqamRepository.findByKartaRaqami(pulOtkazish.getQabulqiluvchi());
-        Optional<HisobRaqam> byKartaRaqami1 = hisobRaqamRepository.findByKartaRaqami(pulOtkazish.getOtkazuvchi());
-        if (byKartaRaqami.isPresent()){
-            HisobRaqam hisobRaqam=byKartaRaqami.get();
-            hisobRaqam.setBalans(hisobRaqam.getBalans()+pulOtkazish.getBalans());
-            hisobRaqamRepository.save(hisobRaqam);
-            hisobRaqam=byKartaRaqami1.get();
-            hisobRaqam.setBalans(hisobRaqam.getBalans()- pulOtkazish.getBalans());
-            hisobRaqamRepository.save(hisobRaqam);
-            return new ApiResponse("Pul o'tkazildi", true);
+        Optional<HisobRaqam> byKartaRaqami1 = hisobRaqamRepository.findByKartaRaqami(jonatuvchi);
+        if (byKartaRaqami1.isPresent()){
+            if (byKartaRaqami.isPresent()){
+                if (byKartaRaqami1.get().getBalans()> pulOtkazish.getBalans()){
+                    HisobRaqam hisobRaqam=byKartaRaqami.get();
+                    hisobRaqam.setBalans(hisobRaqam.getBalans()+pulOtkazish.getBalans());
+                    hisobRaqamRepository.save(hisobRaqam);
+                    hisobRaqam=byKartaRaqami1.get();
+                    hisobRaqam.setBalans(hisobRaqam.getBalans()- pulOtkazish.getBalans());
+                    hisobRaqamRepository.save(hisobRaqam);
+                    return new ApiResponse("Pul o'tkazildi", true);
+                }
+                return new ApiResponse("Hisobingizda mablag' yetarli emas", false);
+            }
+            return new ApiResponse("Bunday karta raqami mavjud emas", false);
         }
         return new ApiResponse("Karta raqami toplimadi", false);
     }
