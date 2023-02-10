@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface HisobRaqamRepository extends JpaRepository<HisobRaqam,Integer> {
     Optional<HisobRaqam> findByFoydalanuvchi_Id(Integer foydalanuvchi_id);
+    Optional<HisobRaqam> findByKartaRaqami(String kartaRaqami);
 }

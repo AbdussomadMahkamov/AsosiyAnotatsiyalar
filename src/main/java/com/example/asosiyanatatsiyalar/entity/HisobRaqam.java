@@ -3,6 +3,8 @@ package com.example.asosiyanatatsiyalar.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -22,6 +24,9 @@ public class HisobRaqam {
     private String amalQilishMuddati;
     @Column(nullable = false)
     private String bankNomi;
+    @Column(nullable = false)
+    private Double balans;
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(optional = false,fetch = FetchType.LAZY)
     Foydalanuvchi foydalanuvchi;
 }

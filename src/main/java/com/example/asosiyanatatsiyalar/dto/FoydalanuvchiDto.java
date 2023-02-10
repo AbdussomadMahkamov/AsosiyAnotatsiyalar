@@ -8,5 +8,6 @@ import java.util.List;
 public class FoydalanuvchiDto {
     private String ism,familiya,manzili,passportRaqam;
     private List<HisobRaqamDto> hisobRaqamDtoList;
+    private String tugulganSana;
 
 }
